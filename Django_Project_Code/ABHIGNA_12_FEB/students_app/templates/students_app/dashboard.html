@@ -1,0 +1,215 @@
+{% extends 'students_app/base.html' %}
+{% block content %}
+
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+/* ===== Dashboard Background ===== */
+.dashboard {
+    padding: 25px;
+    background: #f4f6f9;
+}
+
+/* ===== Cards ===== */
+.card-custom {
+    border-radius: 16px;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    transition: all 0.3s ease;
+}
+
+.card-custom:hover {
+    transform: scale(1.02);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.12);
+}
+
+/* ===== Stats Numbers ===== */
+.stat-number {
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.stat-text {
+    font-size: 14px;
+    color: #6c757d;
+}
+
+/* ===== Icons ===== */
+.stat-icon {
+    font-size: 30px;
+    opacity: 0.9;
+}
+
+/* ===== Footer ===== */
+.footer {
+    margin-top: 40px;
+    padding: 15px 0;
+    text-align: center;
+    font-size: 13px;
+    color: #6c757d;
+    border-top: 1px solid #dee2e6;
+}
+
+</style>
+
+<div class="dashboard container-fluid">
+
+    <!-- ===== Top Statistics Cards ===== -->
+    <div class="row mb-4">
+
+        <div class="col-md-4">
+            <div class="card card-custom p-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="stat-number">520</div>
+                        <div class="stat-text">Total Students</div>
+                        <small class="text-success">12% Growth</small>
+                    </div>
+                    <i class="bi bi-people-fill text-primary stat-icon"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card card-custom p-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="stat-number">300</div>
+                        <div class="stat-text">Male Students</div>
+                        <small class="text-success">5% Increase</small>
+                    </div>
+                    <i class="bi bi-person-fill text-success stat-icon"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card card-custom p-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="stat-number">220</div>
+                        <div class="stat-text">Female Students</div>
+                        <small class="text-danger">2% Decrease</small>
+                    </div>
+                    <i class="bi bi-person-fill text-danger stat-icon"></i>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ===== Charts Section ===== -->
+    <div class="row">
+
+        <!-- Line Chart -->
+        <div class="col-md-4">
+            <div class="card card-custom p-4">
+                <h6 class="mb-3">Monthly Admission Trend</h6>
+                <canvas id="lineChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Bar Chart -->
+        <div class="col-md-4">
+            <div class="card card-custom p-4">
+                <h6 class="mb-3">Branch Distribution</h6>
+                <canvas id="barChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Doughnut Chart -->
+        <div class="col-md-4">
+            <div class="card card-custom p-4">
+                <h6 class="mb-3">Gender Ratio</h6>
+                <canvas id="doughnutChart"></canvas>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        © 2026 Student Management System
+    </div>
+
+</div>
+
+<script>
+
+/* ===== Line Chart (Premium Gradient + Smooth) ===== */
+const ctx = document.getElementById('lineChart').getContext('2d');
+
+const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+gradient.addColorStop(0, 'rgba(54, 162, 235, 0.4)');
+gradient.addColorStop(1, 'rgba(54, 162, 235, 0.05)');
+
+new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+        datasets: [{
+            label: 'Admissions',
+            data: [40, 60, 75, 90, 110, 130],
+            borderColor: '#0d6efd',
+            backgroundColor: gradient,
+            fill: true,
+            tension: 0.4,
+            pointRadius: 4
+        }]
+    },
+    options: {
+        plugins: { legend: { display: false } },
+        scales: {
+            y: { grid: { color: 'rgba(0,0,0,0.05)' } },
+            x: { grid: { display: false } }
+        }
+    }
+});
+
+
+/* ===== Bar Chart ===== */
+new Chart(document.getElementById('barChart'), {
+    type: 'bar',
+    data: {
+        labels: ['CSE', 'IT', 'ECE', 'MECH', 'CIVIL'],
+        datasets: [{
+            data: [150, 120, 90, 80, 60],
+            backgroundColor: '#0d6efd'
+        }]
+    },
+    options: {
+        plugins: { legend: { display: false } },
+        scales: {
+            y: { grid: { color: 'rgba(0,0,0,0.05)' } },
+            x: { grid: { display: false } }
+        }
+    }
+});
+
+
+/* ===== Doughnut Chart ===== */
+new Chart(document.getElementById('doughnutChart'), {
+    type: 'doughnut',
+    data: {
+        labels: ['Male', 'Female'],
+        datasets: [{
+            data: [300, 220],
+            backgroundColor: ['#198754', '#dc3545']
+        }]
+    },
+    options: {
+        cutout: '65%',
+        plugins: {
+            legend: { position: 'top' }
+        }
+    }
+});
+
+</script>
+
+{% endblock %}

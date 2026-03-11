@@ -1,0 +1,93 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    padding: 15px;
+}
+
+.navbar-brand {
+    font-size: 24px;
+}
+
+.card {
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-body h5 {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.card-body h4 {
+    font-size: 24px;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+footer {
+    margin-top: 30px;
+    font-size: 14px;
+    color: #777;
+}
+
+/* Card Styling */
+.card {
+    height: 100%;
+}
+
+.card .card-body i {
+    color: #007bff;
+}
+
+.card .card-body h5 {
+    font-size: 20px;
+    margin-top: 15px;
+}
+
+.card .card-body h4 {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+/* Chart Styles */
+canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* Flexbox layout for equal width charts */
+#chart-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+#chart-row .col-md-6 {
+    padding: 0 15px;
+    margin-bottom: 20px;
+    flex: 1; /* Ensures equal width */
+}
+
+/* Ensure charts stay side by side with equal width */
+@media (max-width: 767px) {
+    #chart-row {
+        flex-direction: column; /* Stack charts vertically on small screens */
+    }
+
+    #chart-row .col-md-6 {
+        width: 100%; /* Ensure 100% width when stacked */
+    }
+}
+
+.container-fluid {
+    padding: 20px;
+    max-width: 100%;
+}

@@ -1,0 +1,80 @@
+{% extends 'students_app/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="content-wrapper">
+    
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="fw-bold">Add New Student</h3>
+        <a href="{% url 'students_app:student_list' %}" class="btn btn-secondary">
+            <i class="fa fa-arrow-left"></i> Back to List
+        </a>
+    </div>
+
+    <!-- Card -->
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <div class="row">
+
+                    <!-- Name -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Full Name</label>
+                        {{ form.name }}
+                    </div>
+
+                    <!-- Date of Birth -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Date of Birth</label>
+                        {{ form.dob }}
+                    </div>
+
+                    <!-- Gender -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Gender</label>
+                        {{ form.gender }}
+                    </div>
+
+                    <!-- Blood Group -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Blood Group</label>
+                        {{ form.blood_group }}
+                    </div>
+
+                    <!-- Branch -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Branch</label>
+                        {{ form.branch }}
+                    </div>
+
+                    <!-- Phone -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Phone Number</label>
+                        {{ form.phone }}
+                    </div>
+
+                </div>
+
+                <!-- Buttons -->
+                <div class="text-end mt-4">
+                    <button type="submit" class="btn btn-primary px-4">
+                        <i class="fa fa-save"></i> Save Student
+                    </button>
+                    <a href="{% url 'students_app:student_list' %}" class="btn btn-outline-secondary px-4">
+                        Cancel
+                    </a>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

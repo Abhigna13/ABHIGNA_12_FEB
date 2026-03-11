@@ -1,0 +1,54 @@
+{% extends 'students_app/base.html' %}
+{% block content %}
+
+<div class="container mt-5">
+    <div class="card shadow p-4 rounded-4">
+        <h3 class="mb-4">{{ title }}</h3>
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+
+            <div class="mb-3">
+                <label class="form-label">Name</label>
+                {{ form.name }}
+                {{ form.name.errors }}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Date of Birth</label>
+                {{ form.dob }}
+                {{ form.dob.errors }}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Gender</label>
+                {{ form.gender }}
+                {{ form.gender.errors }}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Branch</label>
+                {{ form.branch }}
+                {{ form.branch.errors }}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Blood Group</label>
+                {{ form.blood_group }}
+                {{ form.blood_group.errors }}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Phone</label>
+                {{ form.phone }}
+                {{ form.phone.errors }}
+            </div>
+            
+            <button type="submit" class="btn btn-success">Save</button>
+            <a href="{% url 'students_app:student_list' %}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
