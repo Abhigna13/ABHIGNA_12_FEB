@@ -48,7 +48,7 @@ def student_list(request):
         students = students.filter(
             Q(name__icontains=search_query) | 
             Q(branch__icontains=search_query) |
-            Q(phone__icontains=search_query) |
+            Q(phone__icontains=search_query) 
 
         )
     paginator = Paginator(students, 5)

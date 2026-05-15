@@ -1,54 +1,423 @@
+<!-- templates/base.html -->
+
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Student Management System</title>
-    <!-- Bootstrap CSS -->
+
+    <!-- GOOGLE FONT -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- BOOTSTRAP -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
+
+    <!-- BOOTSTRAP ICONS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+
+        body{
+            background:#f5f6fa;
+            font-family:'Poppins',sans-serif;
+            overflow-x:hidden;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        .navbar{
+            background:#244b91 !important;
+            height:52px;
+            padding-top:0;
+            padding-bottom:0;
+            box-shadow:0 2px 8px rgba(0,0,0,0.10);
+        }
+
+        .navbar .container{
+            max-width:1140px;
+        }
+
+        /* LOGO */
+
+        .navbar-brand{
+            color:#fff !important;
+            font-size:18px;
+            font-weight:700;
+            display:flex;
+            align-items:center;
+            gap:7px;
+        }
+
+        .navbar-brand i{
+            font-size:16px;
+        }
+
+        /* NAV ITEMS */
+
+        .navbar-nav{
+            gap:34px;
+        }
+
+        .nav-item{
+            position:relative;
+            height:52px;
+            display:flex;
+            align-items:center;
+        }
+
+        .nav-link{
+            color:#fff !important;
+            font-size:15px;
+            font-weight:500;
+            display:flex;
+            align-items:center;
+            gap:5px;
+            height:52px;
+            padding:0 !important;
+            position:relative;
+        }
+
+        .nav-link:hover{
+            opacity:0.95;
+        }
+
+        /* EXACT YELLOW LINE */
+
+        .nav-item.active::after{
+            content:'';
+            position:absolute;
+            left:6%;
+            bottom:0;
+            width:88%;
+            height:2px;
+            background:#f5c76d;
+            border-radius:10px;
+        }
+
+        /* LOGOUT */
+
+        .logout-link{
+            color:#f5c76d !important;
+        }
+
+        /* ================= CONTENT ================= */
+
+        .main-container{
+            padding-top:32px;
+            padding-bottom:40px;
+        }
+
+        /* ================= CARD STYLE ================= */
+
+        .card{
+            border:none;
+            border-radius:18px;
+            box-shadow:0 3px 15px rgba(0,0,0,0.06);
+        }
+
+        /* ================= LOGIN PAGE ================= */
+
+        .login-wrapper{
+            width:100%;
+            min-height:calc(100vh - 52px);
+            display:flex;
+            justify-content:center;
+            align-items:center;
+        }
+
+        .login-card{
+            width:410px;
+            background:#fff;
+            border-radius:14px;
+            padding:34px 24px;
+            box-shadow:0 4px 18px rgba(0,0,0,0.08);
+        }
+
+        .login-icon{
+            text-align:center;
+            margin-bottom:10px;
+        }
+
+        .login-icon i{
+            font-size:60px;
+            color:#1769ff;
+        }
+
+        .login-title{
+            text-align:center;
+            font-size:22px;
+            font-weight:600;
+            color:#1769ff;
+            margin-bottom:5px;
+        }
+
+        .login-subtitle{
+            text-align:center;
+            color:#666;
+            font-size:15px;
+            margin-bottom:26px;
+        }
+
+        .form-label{
+            font-weight:600;
+            color:#222;
+            margin-bottom:8px;
+        }
+
+        .form-control{
+            height:45px;
+            border-radius:5px;
+            border:1px solid #d9d9d9;
+            font-size:15px;
+            box-shadow:none !important;
+        }
+
+        .form-control:focus{
+            border-color:#244b91;
+        }
+
+        .login-btn{
+            width:100%;
+            height:44px;
+            border:none;
+            border-radius:5px;
+            background:#2d58a4;
+            color:#fff;
+            font-size:17px;
+            font-weight:500;
+            margin-top:12px;
+        }
+
+        .login-btn:hover{
+            background:#244b91;
+        }
+
+        /* ================= DASHBOARD ================= */
+
+        .stats-card{
+            background:#fff;
+            border-radius:18px;
+            padding:22px 24px;
+            min-height:120px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            box-shadow:0 3px 15px rgba(0,0,0,0.06);
+        }
+
+        .stat-number{
+            font-size:26px;
+            font-weight:700;
+            color:#111;
+            margin-bottom:4px;
+        }
+
+        .stat-title{
+            color:#777;
+            font-size:15px;
+            margin-bottom:5px;
+        }
+
+        .growth{
+            color:#1f9658;
+            font-size:14px;
+            font-weight:500;
+        }
+
+        .decrease{
+            color:#e04857;
+            font-size:14px;
+            font-weight:500;
+        }
+
+        .stats-icon i{
+            font-size:25px;
+        }
+
+        .blue-icon{
+            color:#1769ff;
+        }
+
+        .green-icon{
+            color:#23965b;
+        }
+
+        .red-icon{
+            color:#e04857;
+        }
+
+        /* ================= CHARTS ================= */
+
+        .chart-card{
+            background:#fff;
+            border-radius:18px;
+            padding:18px;
+            box-shadow:0 3px 15px rgba(0,0,0,0.06);
+            height:100%;
+        }
+
+        .chart-title{
+            font-size:16px;
+            font-weight:500;
+            color:#333;
+            margin-bottom:14px;
+        }
+
+        .chart-img{
+            width:100%;
+            object-fit:contain;
+        }
+
+        /* ================= FOOTER ================= */
+
+        footer{
+            text-align:center;
+            color:#777;
+            font-size:14px;
+            padding:20px 0;
+        }
+
+    </style>
+
 </head>
+
 <body>
 
+<!-- SUCCESS MESSAGES -->
+
 {% if messages %}
+
 <div class="container mt-3">
+
     {% for message in messages %}
-        <div class="alert alert-success alert-dismissible fade show">
-            {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
+
+    <div class="alert alert-success alert-dismissible fade show">
+
+        {{ message }}
+
+        <button type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"></button>
+
+    </div>
+
     {% endfor %}
+
 </div>
+
 {% endif %}
 
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<!-- ================= NAVBAR ================= -->
+
+<nav class="navbar navbar-expand-lg navbar-dark">
+
     <div class="container">
-        <a class="navbar-brand" href="{% url 'students_app:dashboard' %}">SMS</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+
+        <!-- LOGO -->
+
+        <a class="navbar-brand"
+           href="{% url 'students_app:dashboard' %}">
+
+            <i class="bi bi-mortarboard-fill"></i>
+            SMS
+
+        </a>
+
+        <!-- MOBILE BUTTON -->
+
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav">
+
             <span class="navbar-toggler-icon"></span>
+
         </button>
-        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-            <ul class="navbar-nav">
+
+        <!-- MENU -->
+
+        <div class="collapse navbar-collapse justify-content-end"
+             id="navbarNav">
+
+            <ul class="navbar-nav align-items-center">
+
+                <!-- DASHBOARD -->
+
                 <li class="nav-item">
-                    <a class="nav-link {% if 'dashboard' in request.path %}active{% endif %}" href="{% url 'students_app:dashboard' %}">Dashboard</a>
+
+                    <a class="nav-link"
+                       href="{% url 'students_app:dashboard' %}">
+
+                        <i class="bi bi-speedometer2"></i>
+                        Dashboard
+
+                    </a>
+
                 </li>
+
+                <!-- STUDENTS -->
+
+                <li class="nav-item active">
+
+                    <a class="nav-link"
+                       href="{% url 'students_app:student_list' %}">
+
+                        <i class="bi bi-people-fill"></i>
+                        Students
+
+                    </a>
+
+                </li>
+
+                <!-- LOGOUT -->
+
                 <li class="nav-item">
-                    <a class="nav-link {% if 'students' in request.path %}active{% endif %}" href="{% url 'students_app:student_list' %}">Students</a>
+
+                    <a class="nav-link logout-link"
+                       href="{% url 'students_app:logout' %}">
+
+                        <i class="bi bi-box-arrow-right"></i>
+                        Logout
+
+                    </a>
+
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'students_app:logout' %}">Logout</a>
-                </li>
+
             </ul>
+
         </div>
+
     </div>
+
 </nav>
 
-<div class="container mt-4">
-{% block content %}{% endblock %}
+<!-- ================= CONTENT ================= -->
+
+<div class="container main-container">
+
+    {% block content %}
+
+    {% endblock %}
+
 </div>
 
+
+<!-- BOOTSTRAP JS -->
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
+
 </html>

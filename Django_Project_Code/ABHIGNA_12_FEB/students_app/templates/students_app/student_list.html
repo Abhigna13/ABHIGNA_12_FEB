@@ -1,76 +1,234 @@
 {% extends 'students_app/base.html' %}
+{% load static %}
+
 {% block content %}
 
-<div class="d-flex justify-content-between mb-3">
-    <h4>Students List</h4>
-    <a href="{% url 'students_app:add_student' %}" class="btn btn-primary">Add Student</a>
-</div>
+<style>
 
-<form method="GET" class="mb-3">
-    <div class="input-group">
-        <input type="text" name="search" class="form-control" placeholder="Search by name or branch" value="{{ search_query }}">
-        <button class="btn btn-primary">Search</button>
+body{
+    background:#f5f7fb;
+    font-family:'Poppins',sans-serif;
+}
+
+/* MAIN CARD (HEIGHT REDUCED) */
+.student-card{
+    background:#ffffff;
+    border-radius:22px;
+    padding:18px;   /* reduced */
+    box-shadow:0 4px 20px rgba(0,0,0,0.08);
+}
+
+/* TITLE */
+.page-title{
+    font-size:28px;
+    font-weight:600;
+    color:#222;
+}
+
+/* TOP BUTTON */
+.btn-nav{
+    background:#234686;
+    color:#fff;
+    border:none;
+    border-radius:10px;
+    padding:9px 20px;
+    font-weight:500;
+    font-size:15px;
+}
+
+/* SEARCH */
+.search-input{
+    height:42px;   /* reduced */
+    border:1px solid #d8d8d8;
+    border-radius:10px 0 0 10px;
+    font-size:15px;
+    padding-left:14px;
+}
+
+.search-btn{
+    width:110px;
+    border-radius:0 10px 10px 0;
+}
+
+/* TABLE */
+.table thead th{
+    background:#1f232b !important;
+    color:#fff !important;
+    padding:12px;   /* reduced */
+    font-weight:600;
+    font-size:14px;
+}
+
+.table td{
+    padding:10px;   /* reduced */
+    font-size:14px;
+}
+
+/* PAGINATION */
+.pagination-wrapper{
+    display:flex;
+    justify-content:center;
+    margin-top:20px;  /* reduced */
+}
+
+.pagination-box{
+    display:flex;
+    align-items:center;
+    border:1px solid #dcdcdc;
+    border-radius:10px;
+    overflow:hidden;
+    background:#fff;
+}
+
+.page-link-custom{
+    padding:9px 16px;
+    text-decoration:none;
+    color:#2563eb;
+    background:#fff;
+    font-weight:500;
+    font-size:14px;
+}
+
+.page-disabled{
+    padding:9px 16px;
+    background:#fff;
+    color:#9ca3af;
+    font-size:14px;
+}
+
+.page-number{
+    background:#0d6efd;
+    color:#fff;
+    padding:9px 18px;
+    font-weight:600;
+    font-size:14px;
+}
+
+</style>
+
+<div class="container mt-2 mb-2">  <!-- reduced -->
+
+    <div class="student-card">
+
+        <!-- TOP -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+
+            <h2 class="page-title mb-0">
+                Students List
+            </h2>
+
+            <a href="{% url 'students_app:add_student' %}"
+               class="btn btn-nav">
+                Add Student
+            </a>
+
+        </div>
+
+        <!-- SEARCH -->
+        <form method="GET" class="mb-2">
+
+            <div class="input-group">
+
+                <input type="text"
+                       name="search"
+                       class="form-control search-input"
+                       placeholder="Search by name, branch, phone..."
+                       value="{{ search_query }}">
+
+                <button class="btn btn-nav search-btn"
+                        type="submit">
+                    Search
+                </button>
+
+            </div>
+
+        </form>
+
+        <!-- TABLE -->
+        <div class="table-responsive">
+
+            <table class="table table-bordered table-striped text-center">
+
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>DOB</th>
+                        <th>Gender</th>
+                        <th>Branch</th>
+                        <th>Blood Group</th>
+                        <th>Phone</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for student in students %}
+                    <tr>
+                        <td>{{ students.start_index|add:forloop.counter0 }}</td>
+                        <td>{{ student.name }}</td>
+                        <td>{{ student.dob|default:"-" }}</td>
+                        <td>{{ student.gender }}</td>
+                        <td>{{ student.branch }}</td>
+                        <td>{{ student.blood_group }}</td>
+                        <td>{{ student.phone }}</td>
+                        <td>
+                            <a href="{% url 'students_app:edit_student' student.id %}" class="btn btn-warning btn-sm">Edit</a>
+                            <a href="{% url 'students_app:delete_student' student.id %}" class="btn btn-danger btn-sm">Delete</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="8" class="text-muted">No students found</td>
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <!-- PAGINATION -->
+        <div class="pagination-wrapper">
+
+            <div class="pagination-box">
+
+                {% if students.has_previous %}
+                <a href="?page={{ students.previous_page_number }}&search={{ search_query }}"
+                   class="page-link-custom"
+                   style="border-right:1px solid #dcdcdc;">
+                    Prev
+                </a>
+                {% else %}
+                <div class="page-disabled" style="border-right:1px solid #dcdcdc;">
+                    Prev
+                </div>
+                {% endif %}
+
+                <div class="page-number">
+                    {{ students.number }} of {{ students.paginator.num_pages }}
+                </div>
+
+                {% if students.has_next %}
+                <a href="?page={{ students.next_page_number }}&search={{ search_query }}"
+                   class="page-link-custom"
+                   style="border-left:1px solid #dcdcdc;">
+                    Next
+                </a>
+                {% else %}
+                <div class="page-disabled" style="border-left:1px solid #dcdcdc;">
+                    Next
+                </div>
+                {% endif %}
+
+            </div>
+
+        </div>
+
     </div>
-</form>
 
-<div class="table-responsive">
-<table class="table table-bordered table-striped text-center">
-    <thead class="table-dark">
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>DOB</th>
-            <th>Gender</th>
-            <th>Branch</th>
-            <th>Blood Group</th>
-            <th>Phone</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for student in students %}
-        <tr>
-            <td>{{ forloop.counter }}</td>
-            <td>{{ student.name }}</td>
-            <td>{{ student.dob|default:"-" }}</td>
-            <td>{{ student.gender }}</td>
-            <td>{{ student.branch }}</td>
-            <td>{{ student.blood_group }}</td>
-            <td>{{ student.phone }}</td>
-            <td>
-                <a href="{% url 'students_app:edit_student' student.id %}" class="btn btn-warning btn-sm">Edit</a>
-                <a href="{% url 'students_app:delete_student' student.id %}" class="btn btn-danger btn-sm">Delete</a>
-            </td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="8" class="text-center text-muted">No students found</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
 </div>
-
-<nav>
-<ul class="pagination justify-content-center">
-    {% if students.has_previous %}
-    <li class="page-item">
-        <a class="page-link" href="?page={{ students.previous_page_number }}&search={{ search_query }}">Previous</a>
-    </li>
-    {% endif %}
-
-    {% for num in students.paginator.page_range %}
-    <li class="page-item {% if students.number == num %}active{% endif %}">
-        <a class="page-link" href="?page={{ num }}&search={{ search_query }}">{{ num }}</a>
-    </li>
-    {% endfor %}
-
-    {% if students.has_next %}
-    <li class="page-item">
-        <a class="page-link" href="?page={{ students.next_page_number }}&search={{ search_query }}">Next</a>
-    </li>
-    {% endif %}
-</ul>
-</nav>
 
 {% endblock %}
